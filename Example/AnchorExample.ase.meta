@@ -1,0 +1,32 @@
+fileFormatVersion: 2
+guid: 1f611bf9939b13d42a2d9123fbbce224
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: ba43011857e7eae49b9e7e126d177193, type: 3}
+  serializedVersion: 1
+  ImportAnimation: 1
+  ImportSlices: 1
+  ImportIndex: 0
+  ImportPalette: 0
+  Trim: 1
+  OptimizeFrames: 1
+  Readable: 0
+  PixelsPerUnit: 16
+  PackingMargin: 1
+  Pivot: {x: 0.5, y: 0.5}
+  FilterMode: 0
+  SpriteMeshType: 0
+  WrapMode: 1
+  GenerateTiles: 0
+  TileColliderType: 0
+  GenerateLayerPositionCurves:
+  - LayerName: LEFT
+    Pivot: {x: 0.5, y: 0.5}
+  - LayerName: RIGHT
+    Pivot: {x: 0.5, y: 0.5}
+  GeneratePrefab: 1

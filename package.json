@@ -1,0 +1,9 @@
+{
+	"name": "com.takanora.aseprite-importer",
+	"displayName":"Yet Another Aseprite Importer",
+	"version": "1.0.0",
+	"unity": "2020.1",
+	"description": "",
+	"dependencies": {
+	}
+}
