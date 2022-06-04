@@ -28,7 +28,7 @@ namespace Aseprite
         public Vector2 Pivot;
     }
 
-    [ScriptedImporter(1, "ase")]
+    [ScriptedImporter(2, "ase")]
     unsafe class AsepriteImporter : ScriptedImporter
     {
         const string AtlasName = "Atlas 0";
@@ -401,9 +401,17 @@ namespace Aseprite
 
                         objRefKeys.Clear();
 
+                        if (genericCurves != null)
+                        {
+                            for (var i = 0; i < genericCurves.Count; ++i)
+                            {
+                                genericCurves[i] = new AnimationCurve();
+                            }
+                        }
+
                         for (var frameIndex = 0; frameIndex < len; ++frameIndex)
                         {
-                            var frame = file.Frames[frameIndex];
+                            var frame = file.Frames[tag.From + frameIndex];
                             var sliceKey = sliceKeys[tag.From + frameIndex];
 
                             var cropKey = new CropKey(sliceKey);
@@ -503,7 +511,7 @@ namespace Aseprite
 
             if ((cel.ExtraFlags & CelExtraFlags.PreciseBounds) != 0)
             {
-                layerBounds = new Rect(cel.PreciseXPosition, cel.PreciseXPosition, cel.ScaledWidth, cel.ScaledHeight);
+                layerBounds = new Rect(cel.PreciseXPosition, cel.PreciseYPosition, cel.ScaledWidth, cel.ScaledHeight);
             }
             else
             {
