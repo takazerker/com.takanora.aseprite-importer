@@ -28,7 +28,7 @@ namespace Aseprite
         public Vector2 Pivot;
     }
 
-    [ScriptedImporter(2, "ase")]
+    [ScriptedImporter(3, "ase")]
     unsafe class AsepriteImporter : ScriptedImporter
     {
         const string AtlasName = "Atlas 0";
@@ -302,8 +302,8 @@ namespace Aseprite
                         var img = images[spriteKey.ImageIndex];
 
                         Vector2 pivot;
-                        pivot.x = (spriteKey.Pivot.x - Mathf.Max(sliceKey.X, img.XOffset)) / img.Width;
-                        pivot.y = 1.0f - (spriteKey.Pivot.y - Mathf.Max(sliceKey.Y, img.YOffset)) / img.Height;
+                        pivot.x = (float)(sliceKey.X + sliceKey.PivotX - img.XOffset) / img.Width;
+                        pivot.y = 1.0f - (float)(sliceKey.Y + sliceKey.PivotY - img.YOffset) / img.Height;
 
                         var sprite = Sprite.Create(atlasTex, atlasRects[imageIndex], pivot, PixelsPerUnit, 0, SpriteMeshType, spriteKey.Border);
                         sprite.name = $"{spriteGroup}";
@@ -2169,8 +2169,8 @@ namespace Aseprite
             Pixels = newPixels;
             Width = newWidth;
             Height = newHeight;
-            XOffset = rect.min.x;
-            YOffset = rect.min.y;
+            XOffset += rect.min.x;
+            YOffset += rect.min.y;
         }
 
         public void Trim()
