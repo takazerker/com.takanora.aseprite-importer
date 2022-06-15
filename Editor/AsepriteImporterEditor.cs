@@ -104,6 +104,46 @@ namespace Aseprite
         }
     }
 
+    [CustomPropertyDrawer(typeof(AnimationEventData))]
+    class AnimationEventDataDrawer : PropertyDrawer
+    {
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            var row = position;
+            row.height = EditorGUIUtility.singleLineHeight;
+
+            EditorGUIUtility.labelWidth = 100;
+
+            EditorGUI.PropertyField(row, property.FindPropertyRelative(nameof(AnimationEventData.Tag)));
+            row.y += row.height + EditorGUIUtility.standardVerticalSpacing;
+
+            EditorGUI.PropertyField(row, property.FindPropertyRelative(nameof(AnimationEventData.Time)));
+            row.y += row.height + EditorGUIUtility.standardVerticalSpacing;
+
+            EditorGUI.PropertyField(row, property.FindPropertyRelative(nameof(AnimationEventData.FunctionName)));
+            row.y += row.height + EditorGUIUtility.standardVerticalSpacing;
+
+            EditorGUI.PropertyField(row, property.FindPropertyRelative(nameof(AnimationEventData.StringParameter)));
+            row.y += row.height + EditorGUIUtility.standardVerticalSpacing;
+
+            EditorGUI.PropertyField(row, property.FindPropertyRelative(nameof(AnimationEventData.FloatParameter)));
+            row.y += row.height + EditorGUIUtility.standardVerticalSpacing;
+
+            EditorGUI.PropertyField(row, property.FindPropertyRelative(nameof(AnimationEventData.IntParameter)));
+            row.y += row.height + EditorGUIUtility.standardVerticalSpacing;
+
+            EditorGUI.PropertyField(row, property.FindPropertyRelative(nameof(AnimationEventData.ObjectReferenceParameter)));
+            row.y += row.height + EditorGUIUtility.standardVerticalSpacing;
+
+            EditorGUI.PropertyField(row, property.FindPropertyRelative(nameof(AnimationEventData.MessageOptions)));
+        }
+
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            return 160;
+        }
+    }
+
     [CustomEditor(typeof(AsepriteImporter))]
     [CanEditMultipleObjects]
     class AsepriteImporterEditor : ScriptedImporterEditor
@@ -183,7 +223,6 @@ namespace Aseprite
                 {
                     if (m_LayerList != null)
                     {
-                        EditorGUILayout.Space();
                         EditorGUILayout.LabelField("Generate Layer Position Curves", EditorStyles.boldLabel);
                         m_LayerList.OnGUI(GUILayoutUtility.GetRect(1, 100));
                     }

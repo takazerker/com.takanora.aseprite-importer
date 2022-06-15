@@ -28,6 +28,19 @@ namespace Aseprite
         public Vector2 Pivot;
     }
 
+    [System.Serializable]
+    internal class AnimationEventData
+    {
+        public string Tag;
+        public float Time;
+        public string FunctionName;
+        public string StringParameter;
+        public float FloatParameter;
+        public int IntParameter;
+        public Object ObjectReferenceParameter;
+        public SendMessageOptions MessageOptions;
+    }
+
     [ScriptedImporter(3, "ase")]
     unsafe class AsepriteImporter : ScriptedImporter
     {
@@ -63,6 +76,9 @@ namespace Aseprite
         [Header("Tilemap")]
         public bool GenerateTiles = false;
         public UnityEngine.Tilemaps.Tile.ColliderType TileColliderType;
+
+        [Space(8)]
+        public AnimationEventData[] Events = new AnimationEventData[0];
 
         public LayerPositionSetting[] GenerateLayerPositionCurves = new LayerPositionSetting[0];
 
@@ -354,6 +370,7 @@ namespace Aseprite
                 List<EditorCurveBinding> genericBindings = null;
                 List<AnimationCurve> genericCurves = null;
                 Dictionary<string, int> genericCurveMap = null;
+                var animationEvents = new List<AnimationEvent>();
 
                 if (0 < GenerateLayerPositionCurves.Length)
                 {
@@ -448,6 +465,29 @@ namespace Aseprite
                             }
 
                             time += frame.FrameDuration / 1000.0f;
+                        }
+
+                        animationEvents.Clear();
+
+                        foreach (var evt in Events)
+                        {
+                            if (string.IsNullOrEmpty(evt.Tag) || evt.Tag == tagName)
+                            {
+                                var newEvent = new AnimationEvent();
+                                newEvent.time = evt.Time;
+                                newEvent.functionName = evt.FunctionName;
+                                newEvent.stringParameter = evt.StringParameter;
+                                newEvent.floatParameter = evt.FloatParameter;
+                                newEvent.intParameter = evt.IntParameter;
+                                newEvent.objectReferenceParameter = evt.ObjectReferenceParameter;
+                                newEvent.messageOptions = evt.MessageOptions;
+                                animationEvents.Add(newEvent);
+                            }
+                        }
+
+                        if (0 < animationEvents.Count)
+                        {
+                            AnimationUtility.SetAnimationEvents(newClip, animationEvents.ToArray());
                         }
 
                         AnimationUtility.SetObjectReferenceCurve(newClip, spriteAnimationBinding, objRefKeys.ToArray());
